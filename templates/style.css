@@ -1,6 +1,6 @@
 :root {
-  --text: #24292f;
-  --muted: #6a737d;
+  --text: #ffffff;
+  --muted: #ffffff;
   --link: #0969da;
   --border: #e1e4e8;
 }
@@ -12,6 +12,7 @@ body {
   font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif;
   color: var(--text);
   line-height: 1.7;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
 }
 
 a { color: var(--link); }
