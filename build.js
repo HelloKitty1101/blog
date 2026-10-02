@@ -86,13 +86,26 @@ function renderIndex(posts, files) {
 
   return `
   <section>
-    <h2>文章</h2>
-    ${posts.length ? `<ul class="post-list">${postItems}</ul>` : '<p class="muted">还没有文章。</p>'}
+    <h2><a href="articles.html">文章</a></h2>
+    ${posts.length ? `<ul class="post-list">${postItems}</ul>` : ''}
   </section>
   <section>
-    <h2>文件下载</h2>
+    <h2><a href="downloads.html">文件下载</a></h2>
     ${files.length ? `<ul class="file-list">${fileItems}</ul>
-    <p><a href="downloads.html">查看全部文件 →</a></p>` : '<p class="muted">还没有共享文件。</p>'}
+    <p><a href="downloads.html">查看全部文件 →</a></p>` : ''}
+  </section>`;
+}
+
+function renderArticles(posts) {
+  const items = posts.map((p) => `
+      <li>
+        <a href="posts/${encodeURIComponent(p.slug)}.html">${escapeHtml(p.title)}</a>
+        ${p.date ? `<time>${escapeHtml(p.date)}</time>` : ''}
+      </li>`).join('');
+  return `
+  <section>
+    <h1>文章</h1>
+    ${posts.length ? `<ul class="post-list">${items}</ul>` : ''}
   </section>`;
 }
 
@@ -115,7 +128,7 @@ function renderDownloads(files) {
   return `
   <section>
     <h1>文件下载</h1>
-    ${files.length ? `<ul class="file-list">${rows}</ul>` : '<p class="muted">还没有共享文件。</p>'}
+    ${files.length ? `<ul class="file-list">${rows}</ul>` : ''}
   </section>`;
 }
 
@@ -138,6 +151,10 @@ for (const post of posts) {
 fs.writeFileSync(
   path.join(distDir, 'downloads.html'),
   renderPage({ title: '文件下载', content: renderDownloads(files), base: '' }),
+);
+fs.writeFileSync(
+  path.join(distDir, 'articles.html'),
+  renderPage({ title: '文章', content: renderArticles(posts), base: '' }),
 );
 
 if (fs.existsSync(filesDir)) {
